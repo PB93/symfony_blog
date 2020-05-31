@@ -10,7 +10,7 @@
                 {{ form_start(form) }}
                 <div class="form_group">
                     {{ form_label(form.author) }}
-                    {{ form_widget(form.author, { 'attr': {'class': 'form-control'} }) }}
+                    {{ form_widget(form.author, { 'attr': {'class': 'form-control', 'pattern': '[A-Z][a-z]* [A-Z][a-z]*', 'title': 'Please, enter your name and surname with first capital letter'} }) }}
                 </div>
                 <div class="form_group">
                     {{ form_label(form.content) }}
