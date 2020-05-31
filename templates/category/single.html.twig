@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category {{ category.name}} articles{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <a class="btn btn-light btn-sm" href="/">← Back to all categories</a>
+        <h2>Category {{ category.name}} articles</h2>
+        <a class="badge badge-primary" href="{{ path('create_article', {'category': category.id})}}">Add new Article</a>
+        {% for article in articles %}
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h3><a class="text-white" href="{{ path('single_article', {'article': article.id}) }}">{{ article.name }}</a></h3><br/>
+                    <p>{{ article.content }}</p>
+                    <a class="btn btn-primary btn-sm" href="{{ path('single_article', {'article': article.id}) }}">Details</a>
+                </div>
+            </div>
+        {% endfor %}
+
+        <h2>Comments:</h2>
+        <div class="comments_wrapper">
+            {% for comment in category.comments %}
+                <div class="card bg-light text-black">
+                    <div class="card-body">
+                        <h3>Author: {{ comment.author }}</h3>
+                        <p>Date: {{ comment.createdAt|date("F jS \\a\\t H:i:s") }}</p>
+                        <p>Content:</p>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ render(controller('App\\Controller\\CategoryCommentController::create', {'category': category})) }}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('form[name="category_comment"]').on('submit', function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: '/categorycomment/create/{{ category.id }}',
+                    data: $('form[name="category_comment"]').serialize(),
+                    type: 'POST',
+                    success: function ( response ) {
+                        var comment = response;
+                        var el = '<div class="card bg-light text-black">\n' +
+                            '                    <div class="card-body">\n' +
+                            '                        <h3>Author:'+  comment.author +'</h3>\n' +
+                            '                        <p>Date:'+ comment.createdAt+'</p>\n' +
+                            '                        <p>Content:</p>\n' +
+                            '                        <p>'+ comment.content +'</p>\n' +
+                            '                    </div>\n' +
+                            '                </div>';
+                        $('.comments_wrapper').prepend(el);
+                        $('form[name="category_comment"]').trigger('reset');
+                    }
+                });
+
+            })
+        });
+    </script>
+{% endblock %}

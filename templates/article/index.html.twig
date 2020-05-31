@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All articles{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>All articles:</h2>
+        {% for article in articles %}
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h3>Title: {{ article.name }}</h3>
+                    <br/>
+                    <h3>Content:</h3>
+                    <p>{{ article.content }}</p>
+                    <br/>
+                    <h3>File:</h3>
+                    <p>{{ article.file }}</p>
+                    <div class="text-white bg-white">
+                        <a href="{{ path('single_article', {'article': article.id}) }}">Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

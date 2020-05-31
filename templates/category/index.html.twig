@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of categories{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h2>List of categories</h2>
+        <a class="badge badge-primary" href="{{ path('create_category') }}">Create category</a>
+        {% for category in categories %}
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h3><a class="text-white" href="{{ path('single_category', {'category_id': category.id}) }}">Category name: {{ category.name }}</a><br/></h3>
+                    <p>Description: {{ category.description }}</p>
+                    <a class="btn btn-primary btn-sm" href="{{ path('update_category', {'category': category.id}) }}">Edit category</a>
+                    <a class="btn btn-danger btn-sm" href="{{ path('delete_category', {'category': category.id}) }}">Delete category</a>
+                </div>
+            </div>
+        {% endfor %}
+        <footer>
+            {{ render(controller('App\\Controller\\VisitorController::showVisitors')) }}
+        </footer>
+    </div>
+{% endblock %}

@@ -1,0 +1,6 @@
+<ul class="list-group list-group-horizontal">
+    <li class="list-group-item">Project visitors count:</li>
+{% for key, statistic in statistics %}
+    <li class="list-group-item">{{ key }} : {{ statistic|length }}</li>
+{% endfor %}
+</ul>
